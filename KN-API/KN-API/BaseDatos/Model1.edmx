@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbMartesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBITACORA">
+          <Key>
+            <PropertyRef Name="ConsecutivoError" />
+          </Key>
+          <Property Name="ConsecutivoError" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsecutivoUsuario" Type="bigint" Nullable="false" />
+          <Property Name="FechaHora" Type="datetime" Nullable="false" />
+          <Property Name="CodigoError" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar(max)" Nullable="false" />
+          <Property Name="Origen" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TPERFIL">
+          <Key>
+            <PropertyRef Name="TipoUsuario" />
+          </Key>
+          <Property Name="TipoUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TUSUARIO">
+          <Key>
+            <PropertyRef Name="ConsecutivoUsuario" />
+          </Key>
+          <Property Name="ConsecutivoUsuario" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="NombreCompleto" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TipoUsuario" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TBITACORA_TUSUARIO">
+          <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="1" />
+          <End Role="TBITACORA" Type="Self.TBITACORA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUSUARIO">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Principal>
+            <Dependent Role="TBITACORA">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUSUARIO_TPERFIL">
+          <End Role="TPERFIL" Type="Self.TPERFIL" Multiplicity="1" />
+          <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TPERFIL">
+              <PropertyRef Name="TipoUsuario" />
+            </Principal>
+            <Dependent Role="TUSUARIO">
+              <PropertyRef Name="TipoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbMartesModelStoreContainer">
+          <EntitySet Name="TBITACORA" EntityType="Self.TBITACORA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TPERFIL" EntityType="Self.TPERFIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUSUARIO" EntityType="Self.TUSUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBITACORA_TUSUARIO" Association="Self.FK_TBITACORA_TUSUARIO">
+            <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+            <End Role="TBITACORA" EntitySet="TBITACORA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUSUARIO_TPERFIL" Association="Self.FK_TUSUARIO_TPERFIL">
+            <End Role="TPERFIL" EntitySet="TPERFIL" />
+            <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbMartesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBITACORA">
+          <Key>
+            <PropertyRef Name="ConsecutivoError" />
+          </Key>
+          <Property Name="ConsecutivoError" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" />
+          <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CodigoError" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Origen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TUSUARIO" Relationship="Self.FK_TBITACORA_TUSUARIO" FromRole="TBITACORA" ToRole="TUSUARIO" />
+        </EntityType>
+        <EntityType Name="TPERFIL">
+          <Key>
+            <PropertyRef Name="TipoUsuario" />
+          </Key>
+          <Property Name="TipoUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TUSUARIO" Relationship="Self.FK_TUSUARIO_TPERFIL" FromRole="TPERFIL" ToRole="TUSUARIO" />
+        </EntityType>
+        <EntityType Name="TUSUARIO">
+          <Key>
+            <PropertyRef Name="ConsecutivoUsuario" />
+          </Key>
+          <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Correo" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TBITACORA" Relationship="Self.FK_TBITACORA_TUSUARIO" FromRole="TUSUARIO" ToRole="TBITACORA" />
+          <NavigationProperty Name="TPERFIL" Relationship="Self.FK_TUSUARIO_TPERFIL" FromRole="TUSUARIO" ToRole="TPERFIL" />
+        </EntityType>
+        <Association Name="FK_TBITACORA_TUSUARIO">
+          <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="1" />
+          <End Role="TBITACORA" Type="Self.TBITACORA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUSUARIO">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Principal>
+            <Dependent Role="TBITACORA">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUSUARIO_TPERFIL">
+          <End Role="TPERFIL" Type="Self.TPERFIL" Multiplicity="1" />
+          <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TPERFIL">
+              <PropertyRef Name="TipoUsuario" />
+            </Principal>
+            <Dependent Role="TUSUARIO">
+              <PropertyRef Name="TipoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbMartesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBITACORA" EntityType="Self.TBITACORA" />
+          <EntitySet Name="TPERFIL" EntityType="Self.TPERFIL" />
+          <EntitySet Name="TUSUARIO" EntityType="Self.TUSUARIO" />
+          <AssociationSet Name="FK_TBITACORA_TUSUARIO" Association="Self.FK_TBITACORA_TUSUARIO">
+            <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+            <End Role="TBITACORA" EntitySet="TBITACORA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUSUARIO_TPERFIL" Association="Self.FK_TUSUARIO_TPERFIL">
+            <End Role="TPERFIL" EntitySet="TPERFIL" />
+            <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbMartesModelStoreContainer" CdmEntityContainer="dbMartesEntities">
+          <EntitySetMapping Name="TBITACORA">
+            <EntityTypeMapping TypeName="dbMartesModel.TBITACORA">
+              <MappingFragment StoreEntitySet="TBITACORA">
+                <ScalarProperty Name="ConsecutivoError" ColumnName="ConsecutivoError" />
+                <ScalarProperty Name="ConsecutivoUsuario" ColumnName="ConsecutivoUsuario" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+                <ScalarProperty Name="CodigoError" ColumnName="CodigoError" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TPERFIL">
+            <EntityTypeMapping TypeName="dbMartesModel.TPERFIL">
+              <MappingFragment StoreEntitySet="TPERFIL">
+                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUSUARIO">
+            <EntityTypeMapping TypeName="dbMartesModel.TUSUARIO">
+              <MappingFragment StoreEntitySet="TUSUARIO">
+                <ScalarProperty Name="ConsecutivoUsuario" ColumnName="ConsecutivoUsuario" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

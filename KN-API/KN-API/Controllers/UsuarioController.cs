@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KN_API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,12 +11,14 @@ namespace KN_API.Controllers
     public class UsuarioController : ApiController
     {
 
+        UsuarioModel model = new UsuarioModel();
+
         [HttpGet]
         [Route("api/Validar_Usuario")]
 
-        public bool Validar_Usuario()
+        public UsuarioObj Validar_Usuario(UsuarioObj usario)
         {
-            return false;
+            return model.Validar_Usuario(usario);
         }
 
         //Registrar Usuario
