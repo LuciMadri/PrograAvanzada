@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbMartesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TBITACORA">
+    <Key>
+      <PropertyRef Name="ConsecutivoError" />
+    </Key>
+    <Property Name="ConsecutivoError" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" />
+    <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CodigoError" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Origen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="TUSUARIO" Relationship="Self.FK_TBITACORA_TUSUARIO" FromRole="TBITACORA" ToRole="TUSUARIO" />
+  </EntityType>
+  <EntityType Name="TPERFIL">
+    <Key>
+      <PropertyRef Name="TipoUsuario" />
+    </Key>
+    <Property Name="TipoUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="TUSUARIO" Relationship="Self.FK_TUSUARIO_TPERFIL" FromRole="TPERFIL" ToRole="TUSUARIO" />
+  </EntityType>
+  <EntityType Name="TUSUARIO">
+    <Key>
+      <PropertyRef Name="ConsecutivoUsuario" />
+    </Key>
+    <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Correo" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contrasenna" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NombreCompleto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TipoUsuario" Type="Int32" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="TBITACORA" Relationship="Self.FK_TBITACORA_TUSUARIO" FromRole="TUSUARIO" ToRole="TBITACORA" />
+    <NavigationProperty Name="TPERFIL" Relationship="Self.FK_TUSUARIO_TPERFIL" FromRole="TUSUARIO" ToRole="TPERFIL" />
+  </EntityType>
+  <Association Name="FK_TBITACORA_TUSUARIO">
+    <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="1" />
+    <End Role="TBITACORA" Type="Self.TBITACORA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TUSUARIO">
+        <PropertyRef Name="ConsecutivoUsuario" />
+      </Principal>
+      <Dependent Role="TBITACORA">
+        <PropertyRef Name="ConsecutivoUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TUSUARIO_TPERFIL">
+    <End Role="TPERFIL" Type="Self.TPERFIL" Multiplicity="1" />
+    <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TPERFIL">
+        <PropertyRef Name="TipoUsuario" />
+      </Principal>
+      <Dependent Role="TUSUARIO">
+        <PropertyRef Name="TipoUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbMartesEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TBITACORA" EntityType="Self.TBITACORA" />
+    <EntitySet Name="TPERFIL" EntityType="Self.TPERFIL" />
+    <EntitySet Name="TUSUARIO" EntityType="Self.TUSUARIO" />
+    <AssociationSet Name="FK_TBITACORA_TUSUARIO" Association="Self.FK_TBITACORA_TUSUARIO">
+      <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+      <End Role="TBITACORA" EntitySet="TBITACORA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TUSUARIO_TPERFIL" Association="Self.FK_TUSUARIO_TPERFIL">
+      <End Role="TPERFIL" EntitySet="TPERFIL" />
+      <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+    </AssociationSet>
+    <FunctionImport Name="Consultar_Datos_Usuario" ReturnType="Collection(dbMartesModel.Consultar_Datos_Usuario_Result)">
+      <Parameter Name="Correo" Mode="In" Type="String" />
+      <Parameter Name="Contrasenna" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Registrar_Datos_Usuario">
+      <Parameter Name="Correo" Mode="In" Type="String" />
+      <Parameter Name="Contrasenna" Mode="In" Type="String" />
+      <Parameter Name="NombreCompleto" Mode="In" Type="String" />
+      <Parameter Name="TipoUsuario" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="Consultar_Datos_Usuario_Result">
+    <Property Type="String" Name="Correo" Nullable="false" MaxLength="75" />
+    <Property Type="String" Name="NombreCompleto" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="TipoUsuario" Nullable="false" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+  </ComplexType>
+</Schema>
