@@ -20,4 +20,13 @@ namespace KN_API.Models
         public string Token { get; set; }
 
     }
+
+    public class RespuestaUsuarioObj
+    {
+        public int Codigo { get; set; }
+        public string Mensaje { get; set; }
+        public UsuarioObj objeto { get; set; }
+        public List<UsuarioObj> lista { get; set; }
+    }
+
 }

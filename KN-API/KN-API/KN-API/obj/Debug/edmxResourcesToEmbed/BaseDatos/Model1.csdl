@@ -79,6 +79,13 @@
       <Parameter Name="NombreCompleto" Mode="In" Type="String" />
       <Parameter Name="TipoUsuario" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="Registrar_Bitacora">
+      <Parameter Name="Correo" Mode="In" Type="String" />
+      <Parameter Name="FechaHora" Mode="In" Type="DateTime" />
+      <Parameter Name="CodigoError" Mode="In" Type="Int32" />
+      <Parameter Name="Descripcion" Mode="In" Type="String" />
+      <Parameter Name="Origen" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="Consultar_Datos_Usuario_Result">
     <Property Type="String" Name="Correo" Nullable="false" MaxLength="75" />

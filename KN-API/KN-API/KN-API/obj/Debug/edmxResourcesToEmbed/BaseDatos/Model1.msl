@@ -44,5 +44,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="Registrar_Datos_Usuario" FunctionName="dbMartesModel.Store.Registrar_Datos_Usuario" />
+    <FunctionImportMapping FunctionImportName="Registrar_Bitacora" FunctionName="dbMartesModel.Store.Registrar_Bitacora" />
   </EntityContainerMapping>
 </Mapping>

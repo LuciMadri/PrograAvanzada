@@ -64,5 +64,30 @@ namespace KN_API.BaseDatos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Registrar_Datos_Usuario", correoParameter, contrasennaParameter, nombreCompletoParameter, tipoUsuarioParameter);
         }
+    
+        public virtual int Registrar_Bitacora(string correo, Nullable<System.DateTime> fechaHora, Nullable<int> codigoError, string descripcion, string origen)
+        {
+            var correoParameter = correo != null ?
+                new ObjectParameter("Correo", correo) :
+                new ObjectParameter("Correo", typeof(string));
+    
+            var fechaHoraParameter = fechaHora.HasValue ?
+                new ObjectParameter("FechaHora", fechaHora) :
+                new ObjectParameter("FechaHora", typeof(System.DateTime));
+    
+            var codigoErrorParameter = codigoError.HasValue ?
+                new ObjectParameter("CodigoError", codigoError) :
+                new ObjectParameter("CodigoError", typeof(int));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var origenParameter = origen != null ?
+                new ObjectParameter("Origen", origen) :
+                new ObjectParameter("Origen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Registrar_Bitacora", correoParameter, fechaHoraParameter, codigoErrorParameter, descripcionParameter, origenParameter);
+        }
     }
 }
