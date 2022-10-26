@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="login-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="../../index2.html" class="h1"><b>Sistema</b> Citas</a>
+        </div>
+        <div class="card-body">
+           
+            
+            @using (Html.BeginForm("Principal", "Home", FormMethod.Post))
+            {
+
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Correo">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Contraseña">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7">
+                        <div class="icheck-primary">
+                            <label for="remember">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                    </div>
+                </div>
+            }
+
+            <p class="mb-1">
+                <a href="forgot-password.html">¿Olvidó su contraseña?</a>
+            </p>
+            <p class="mb-0">
+                <a href="register.html" class="text-center">¡Crear una contraseña!</a>
+            </p>
+        </div>
+    </div>
+</div>
